@@ -1,0 +1,14 @@
+# Conda environment for reducing fermi data
+name: fermitools-2.2.0
+
+channels:
+  - conda-forge
+  - fermi
+
+variables:
+  PYTHONNOUSERSITE: "1"
+
+dependencies:
+  - python=3.9
+  - fermitools>=2.2.0
+  - gammapy=1.0
