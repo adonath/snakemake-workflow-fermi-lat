@@ -12,4 +12,4 @@ include: "rules/gather.smk"
 
 # all rule 
 rule all:
-    input: "results/events.txt"
+    input:  expand("results/{sub_name}/events.txt", sub_name=config["sub_name"])

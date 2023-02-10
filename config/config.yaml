@@ -1,2 +1,11 @@
-gtbin:
-  emin: 1
+name: my-analysis
+sub_name: my-config
+roi:
+    center:
+        frame: icrs
+        lon: "06h35m46.5079301472s"
+        lat: "-75d16m16.816418256s"
+    width: 5.0 arcsec
+    energy_range:
+        min: 1 GeV
+        max: 3 TeV    

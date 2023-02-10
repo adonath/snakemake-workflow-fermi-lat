@@ -1,5 +1,5 @@
 rule gather_event_files:
     output:
-        "results/events.txt"
+        expand("results/{sub_name}/events.txt", sub_name=config["sub_name"])
     shell: 
-        "ls data/*_PH* > results/events.txt"
+        "ls data/*_PH* > {output}"
