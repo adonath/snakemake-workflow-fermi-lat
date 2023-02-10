@@ -1,4 +1,4 @@
-rule fermitools-gtselect:
+rule gtselect:
     input:
         expand("results/{sub_name}/events.txt", sub_name=config["sub_name"])
     output:

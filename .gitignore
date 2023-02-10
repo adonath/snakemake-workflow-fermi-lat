@@ -4,3 +4,4 @@ logs/**
 data/**
 .snakemake
 .snakemake/**
+__pycache__

@@ -1,13 +1,18 @@
 from snakemake.utils import min_version
 
+sys.path.insert(0, Path(workflow.basedir).parent.as_posix())
+from config import SnakemakeFermiLATConfig
+
 # set minimum snakemake version
 min_version("6.4.1")
 
 # setup config file
-configfile: "config/config.yaml"
+#configfile: "config/config.yaml"
+config_obj = SnakemakeFermiLATConfig.read("config/config.yaml")
 
 # load rules
 include: "rules/gather.smk"
+include: "rules/gtselect.smk"
 
 
 # all rule 
