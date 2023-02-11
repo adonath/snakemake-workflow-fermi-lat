@@ -1,9 +1,7 @@
 rule gtselect:
     input:
-        expand("results/{sub_name}/events.txt", sub_name=config["sub_name"])
+        "results/{config_name}/{config_name}-events.txt"
     output:
-        expand("results/{sub_name}/events.fits", sub_name=config["sub_name"])
-    log: expand("logs/{sub_name}/gtselect.log", sub_name=config["sub_name"])
-    params:
-        arguments = config_obj.gtselect.to_fermi_tools()
-    shell: "gtselect infile={input} outfile={output} {params.arguments}"
+        "results/{config_name}/{config_name}-events-selected.fits"
+    log: "logs/{config_name}/gtselect.log"
+    shell: "gtselect infile={input} outfile={output}"

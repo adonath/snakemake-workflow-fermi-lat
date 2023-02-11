@@ -1,5 +1,4 @@
-name: my-analysis
-sub_name: my-config
+name: my-config
 roi:
     center:
         frame: icrs
@@ -8,4 +7,4 @@ roi:
     width: 5.0 arcsec
     energy_range:
         min: 1 GeV
-        max: 3 TeV    
+        max: 3 TeV

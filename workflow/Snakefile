@@ -7,8 +7,8 @@ from config import SnakemakeFermiLATConfig
 min_version("6.4.1")
 
 # setup config file
-#configfile: "config/config.yaml"
-config_obj = SnakemakeFermiLATConfig.read("config/config.yaml")
+configfile: "config/config.yaml"
+#config_obj = SnakemakeFermiLATConfig.read("config/config.yaml")
 
 # load rules
 include: "rules/gather.smk"
@@ -17,4 +17,4 @@ include: "rules/gtselect.smk"
 
 # all rule 
 rule all:
-    input:  expand("results/{sub_name}/events.txt", sub_name=config["sub_name"])
+    input:  expand("results/{config_name}/events.txt", config_name=config["name"])
