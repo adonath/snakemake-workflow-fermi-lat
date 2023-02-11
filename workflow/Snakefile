@@ -3,6 +3,10 @@ from astropy.coordinates import SkyCoord, Angle
 from astropy import units as u
 from astropy.time import Time
 from gammapy.utils.time import TIME_REF_FERMI
+from pydantic import BaseModel, validator
+from enum import Enum
+
+
 
 # set minimum snakemake version
 min_version("6.4.1")
@@ -15,20 +19,134 @@ include: "rules/gather.smk"
 include: "rules/gtselect.smk"
 include: "rules/gtmktime.smk"
 include: "rules/gtbin.smk"
+include: "rules/gtexpcube2.smk"
 
-# configuration parsing
-data = config["gtselect"]
-skycoord = SkyCoord(data["ra"], data["dec"], frame="icrs")
-ra = skycoord.icrs.ra.deg
-dec = skycoord.icrs.dec.deg
-rad = Angle(data["rad"]).deg
-tmin = (Time(data["tmin"]) - TIME_REF_FERMI).to_value("s")
-tmax = (Time(data["tmax"]) - TIME_REF_FERMI).to_value("s")
-emin = u.Quantity(data["emin"]).to_value("MeV")
-emax = u.Quantity(data["emax"]).to_value("MeV")
-zmax = Angle(data["zmax"]).deg
+FERMI_IRF_EVCLASS = {
+    128: "P8R3_SOURCE_V3",
+}
+
+EVENT_TYPES = [2 ** idx for idx in range(10)]
+EVENT_TYPES += [3] # front and back type
+EVENT_CLASSES = [2 ** idx for idx in range(3, 12)]
+
+
+class BoolEnum(str, Enum):
+    yes = "yes"
+    no = "no"
+
+
+class CoordsysEnum(str, Enum):
+    gal = "GAL"
+    cel = "CEL"
+
+
+class EbinalgEnum(str, Enum):
+    lin = "LIN"
+    log = "LOG"
+
+
+class ProjEnum(str, Enum):
+    ait = "AIT"
+    car = "CAR"
+    tab = "TAN"
+
+
+class AlgorithmEnum(str, Enum):
+    ccube = "CCUBE"
+
+
+class BaseConfig(BaseModel):
+    """Gt base config"""
+    class Config:
+        validate_all = True
+        validate_assignment = True
+        extra = "forbid"
+
+    def to_cmd_args(self):
+        """To cmd args"""
+        data = self.dict()
+        return " ".join([f"{key}={value}" for key, value in data.items()])
+
+
+class GtSelectConfig(BaseConfig):
+    ra: float
+    dec: float
+    rad: float
+    tmin: float = 239557417.0
+    tmax: float = 697768627.0
+    emin: float = 1000.0
+    emax: float = 500000.0
+    zmax: float = 105.0
+    evclass: int = 128
+    evtype: int = 3
+
+    @validator("ra", "dec", "zmax", "rad", pre=True)
+    def validate_angle(cls, value):
+        """Validate angle"""
+        return Angle(value, "deg").deg
+
+    @validator("tmin", "tmax", pre=True)
+    def validate_time(cls, value):
+        """Validate time"""
+        return (Time(value) - TIME_REF_FERMI).to_value("s")
+
+    @validator("emin", "emax", pre=True)
+    def validate_energy(cls, value):
+        """Validate energy"""
+        return u.Quantity(value, "MeV").to_value("MeV")
+
+    @validator("evclass")
+    def validate_event_class(cls, value):
+        """Validate event class"""
+        if not value in EVENT_CLASSES:
+            raise ValueError(f"Not a valid event class {value}")
+
+        return value
+
+    @validator("evtype")
+    def validate_event_type(cls, value):
+        """Validate event type"""
+        if not value in EVENT_TYPES:
+            raise ValueError(f"Not a valid event type {value}")
+
+        return value
+
+
+class GtMkTimeConfig(BaseConfig):
+    filter: str = "(DATA_QUAL>0)&&(LAT_CONFIG==1)"
+    roicut: BoolEnum = "yes"
+
+
+class GtBinConfig(BaseConfig):
+    algorithm: AlgorithmEnum = "CCUBE"
+    nxpix: int = 200
+    nypix: int = 200
+    xref: float = 0 
+    yref: float = 0
+    proj: ProjEnum = "CAR"
+    binsz: float = 0.02
+    coordsys: CoordsysEnum = "GAL"
+    ebinalg: EbinalgEnum = "LOG"
+    enumbins: int = 1
+    axisrot: float = 0
+    emin: float = 1000.0
+    emax: float = 500000.0
+
+    class Config:  
+        use_enum_values = True
+
+    @validator("emin", "emax", pre=True)
+    def validate_energy(cls, value):
+        """Validate energy"""
+        return u.Quantity(value, "MeV").to_value("MeV")
+
+
+gtselect = GtSelectConfig(**config["gtselect"])
+gtmktime = GtMkTimeConfig(**config["gtmktime"])
+gtbin = GtBinConfig(**config["gtbin"])
+
 
 # all rule 
 rule all:
     input:
-        expand("results/{config_name}/maps/{config_name}-counts.fits", config_name=config["name"])
+        expand("results/{config_name}/{config_name}-counts.fits", config_name=config["name"])

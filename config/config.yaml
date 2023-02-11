@@ -12,7 +12,7 @@ gtselect:
   evclass: 128
   evtype: 3
 gtmktime:
-  filter: (DATA_QUAL>0)&&(LAT_CONFIG==1)
+  filter: "'(DATA_QUAL>0)&&(LAT_CONFIG==1)'"
   roicut: "yes"
 gtbin:
   algorithm: CCUBE
@@ -29,7 +29,6 @@ gtbin:
   emin: *emin
   emax: *emax
 gtexpcube2:
-  irf: &irf P8R2_SOURCE_V6
   coordsys: *coordsys
   binsz: *binsz
   nxpix: *nxpix
@@ -47,7 +46,6 @@ gtexpcube2:
 gtpsf:
   thetamax: 10
   ntheta: 300
-  irfs: *irf
   ra: *ra
   dec: *dec
   emin: *emin_true
