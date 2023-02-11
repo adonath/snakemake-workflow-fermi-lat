@@ -1,3 +1,57 @@
 name: my-config
+scfile: data/L230210105554348FF7BE69_SC00.fits
 gtselect:
-  
+  ra: &ra "06h35m46.5079301472s"
+  dec: &dec "-75d16m16.816418256s"
+  rad: 3.5 deg
+  tmin: "2008-08-04 15:43:36"
+  tmax: "2023-02-10 21:46:14"
+  emin: &emin 1 GeV
+  emax: &emax 2 TeV
+  zmax: 105 deg
+  evclass: 128
+  evtype: 3
+gtmktime:
+  filter: (DATA_QUAL>0)&&(LAT_CONFIG==1)
+  roicut: "yes"
+gtbin:
+  algorithm: CCUBE
+  nxpix: &nxpix 200
+  nypix: &nypix 200
+  binsz: &binsz 0.02
+  xref: &xref 0 
+  yref: &yref 0
+  proj: &proj CAR
+  coordsys: &coordsys GAL
+  ebinalg: &ebinalg LOG
+  enumbins: 11
+  axisrot: &axisrot 0
+  emin: *emin
+  emax: *emax
+gtexpcube2:
+  irf: &irf P8R2_SOURCE_V6
+  coordsys: *coordsys
+  binsz: *binsz
+  nxpix: *nxpix
+  nypix: *nypix
+  xref: *xref
+  yref: *yref
+  proj: *proj
+  ebinalg: *ebinalg
+  cmap: none
+  emin: &emin_true 1 GeV
+  emax: &emax_true 2 TeV
+  enumbins: &nebins 17
+  axisrot: *axisrot
+  bincalc: EDGE
+gtpsf:
+  thetamax: 10
+  ntheta: 300
+  irfs: *irf
+  ra: *ra
+  dec: *dec
+  emin: *emin_true
+  emax: *emax_true
+  nenergies: *nebins
+
+

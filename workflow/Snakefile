@@ -1,4 +1,8 @@
 from snakemake.utils import min_version
+from astropy.coordinates import SkyCoord, Angle
+from astropy import units as u
+from astropy.time import Time
+from gammapy.utils.time import TIME_REF_FERMI
 
 # set minimum snakemake version
 min_version("6.4.1")
@@ -9,8 +13,22 @@ configfile: "config/config.yaml"
 # load rules
 include: "rules/gather.smk"
 include: "rules/gtselect.smk"
+include: "rules/gtmktime.smk"
+include: "rules/gtbin.smk"
 
+# configuration parsing
+data = config["gtselect"]
+skycoord = SkyCoord(data["ra"], data["dec"], frame="icrs")
+ra = skycoord.icrs.ra.deg
+dec = skycoord.icrs.dec.deg
+rad = Angle(data["rad"]).deg
+tmin = (Time(data["tmin"]) - TIME_REF_FERMI).to_value("s")
+tmax = (Time(data["tmax"]) - TIME_REF_FERMI).to_value("s")
+emin = u.Quantity(data["emin"]).to_value("MeV")
+emax = u.Quantity(data["emax"]).to_value("MeV")
+zmax = Angle(data["zmax"]).deg
 
 # all rule 
 rule all:
-    input:  expand("results/{config_name}/events.txt", config_name=config["name"])
+    input:
+        expand("results/{config_name}/maps/{config_name}-counts.fits", config_name=config["name"])

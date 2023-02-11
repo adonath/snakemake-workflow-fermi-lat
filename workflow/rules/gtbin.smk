@@ -1,9 +1,15 @@
-rule fermitools-gtbin:
+rule gtbin:
     input:
-        "path/to/inputfile"
+        "results/{config_name}/{config_name}-events-selected-filtered.fits"
     output:
-        "path/to/outputfile"
-    log: "logs/gtbin.log"
-    shell: "gtbin evfile=$EVENTS outfile=$COUNTS algorithm=CCUBE SCFILE=$SPACECRAFT \
-      coordsys=GAL binsz=0.05 nxpix=400 nypix=200 xref=0 yref=0 proj=CAR ebinalg=LOG \
-      emin=$EMIN emax=$EMAX enumbins=$NEBINS axisrot=0"
+        "results/{config_name}/maps/{config_name}-counts.fits"
+    log: "logs/{config_name}/gtbin.log"
+    shell: 
+        "gtbin evfile={input} outfile={output} algorithm={config[gtbin][algorithm]} "
+        "SCFILE={config[scfile]} "
+        "coordsys={config[gtbin][coordsys]} binsz={config[gtbin][binsz]} "
+        "nxpix={config[gtbin][nxpix]} nypix={config[gtbin][nypix]} "
+        "xref={config[gtbin][xref]} yref={config[gtbin][yref]} "
+        "proj={config[gtbin][proj]} ebinalg={config[gtbin][ebinalg]} "
+        "emin={emin} emax={emax} "
+        "enumbins={config[gtbin][enumbins]} axisrot={config[gtbin][axisrot]} "
