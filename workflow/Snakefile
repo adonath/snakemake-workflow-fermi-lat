@@ -65,6 +65,8 @@ class IrfsEnum(str, Enum):
 
 class BaseConfig(BaseModel):
     """Gt base config"""
+    mode: str = "h"
+
     class Config:
         validate_all = True
         validate_assignment = True
@@ -147,6 +149,14 @@ class GtBinConfig(BaseConfig):
     def validate_energy(cls, value):
         """Validate energy"""
         return u.Quantity(value, "MeV").to_value("MeV")
+
+
+class GtLtCubeConfig(BaseConfig):
+    dcostheta: float = 0.025
+    binsz: float = 1.
+    tmin: float = 239557417.0
+    tmax: float = 697768627.0
+    zmax: float = 105.0
 
 
 class GtExpCube2Config(BaseConfig):

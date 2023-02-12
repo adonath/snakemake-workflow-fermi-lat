@@ -1,9 +1,10 @@
 rule gtexpcube2:
     input:
-        "path/to/inputfile"
+        "results/{config_name}/{config_name}-ltcube.fits"
     output:
-        "path/to/outputfile"
-    log: "logs/gtbin.log"
+        "results/{config_name}/{config_name}-exposure.fits"
+    log:
+        "logs/gtexpcube2.log"
     run:
         args = gtexpcube2.to_cmd_args()
-        shell("gtexpcube2 infile=$LIVETIME outfile=$EXPOSURE " + args)
+        shell("gtexpcube2 infile={input} outfile={output} " + args)
