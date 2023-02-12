@@ -54,6 +54,14 @@ class ProjEnum(str, Enum):
 class AlgorithmEnum(str, Enum):
     ccube = "CCUBE"
 
+class BinCalcEnum(str, Enum):
+    center = "CENTER"
+    edges = "EDGE"
+
+
+class IrfsEnum(str, Enum):
+     p8r3_source_v3 = "P8R3_SOURCE_V3"
+
 
 class BaseConfig(BaseModel):
     """Gt base config"""
@@ -141,9 +149,28 @@ class GtBinConfig(BaseConfig):
         return u.Quantity(value, "MeV").to_value("MeV")
 
 
+class GtExpCube2Config(BaseConfig):
+    coordsys: CoordsysEnum = "GAL"
+    irfs: IrfsEnum = "P8R3_SOURCE_V3"
+    nxpix: int = 200
+    nypix: int = 200
+    xref: float = 0 
+    yref: float = 0
+    proj: ProjEnum = "CAR"
+    binsz: float = 0.02
+    ebinalg: EbinalgEnum = "LOG"
+    cmap: str = "none"
+    emin: float = 1000.0
+    emax: float = 500000.0
+    enumbins: int = 17
+    axisrot: float = 0
+    bincalc: BinCalcEnum = "EDGE"
+
+
 gtselect = GtSelectConfig(**config["gtselect"])
 gtmktime = GtMkTimeConfig(**config["gtmktime"])
 gtbin = GtBinConfig(**config["gtbin"])
+gtexpcube2 GtExpCube2Config(**config["gtexpcube2"])
 
 
 # all rule 
