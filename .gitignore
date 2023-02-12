@@ -5,3 +5,4 @@ data/**
 .snakemake
 .snakemake/**
 __pycache__
+*.par
