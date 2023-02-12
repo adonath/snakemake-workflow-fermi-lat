@@ -6,4 +6,4 @@ rule gtbin:
     log: "logs/{config_name}/gtbin.log"
     run:
         args = gtbin.to_cmd_args()
-        shell("gtbin infile={input} outfile={output} " + args)
+        shell("gtbin evfile={input} outfile={output} scfile={config[scfile]}" + args)

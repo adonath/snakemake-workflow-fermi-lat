@@ -8,4 +8,4 @@ rule gtmktime:
     run:
         #args = gtmktime.to_cmd_args()
         #shell("gtmktime scfile={config[scfile]} evfile={input} outfile={output} " + args)
-        shell("cp results/{config_name}/{config_name}-events-selected.fits results/{config_name}/{config_name}-events-selected-filtered.fits")
+        shell("cp {input} {output}")

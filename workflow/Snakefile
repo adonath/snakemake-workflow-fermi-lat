@@ -166,11 +166,16 @@ class GtExpCube2Config(BaseConfig):
     axisrot: float = 0
     bincalc: BinCalcEnum = "EDGE"
 
+    @validator("emin", "emax", pre=True)
+    def validate_energy(cls, value):
+        """Validate energy"""
+        return u.Quantity(value, "MeV").to_value("MeV")
+
 
 gtselect = GtSelectConfig(**config["gtselect"])
 gtmktime = GtMkTimeConfig(**config["gtmktime"])
 gtbin = GtBinConfig(**config["gtbin"])
-gtexpcube2 GtExpCube2Config(**config["gtexpcube2"])
+gtexpcube2 = GtExpCube2Config(**config["gtexpcube2"])
 
 
 # all rule 
