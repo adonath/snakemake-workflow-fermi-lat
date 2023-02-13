@@ -145,6 +145,16 @@ class GtSelectConfig(BaseConfig):
 
         return value
 
+    @property
+    def center_skydir(self):
+        """Center sky dir"""
+        return SkyCoord(self.ra, self.dec, unit="deg", frame="icrs")
+
+    @property
+    def width(self):
+        """Width"""
+        return Angle(self.rad, "deg")
+
 
 class GtMkTimeConfig(BaseConfig):
     filter: str = "(DATA_QUAL>0)&&(LAT_CONFIG==1)"
@@ -284,9 +294,11 @@ include: "rules/gtltcube.smk"
 include: "rules/gtpsf.smk"
 include: "rules/prepare-gp-dataset.smk"
 include: "rules/prepare-gp-datasets-yaml.smk"
+include: "rules/prepare-gp-model.smk"
 
 # all rule 
 rule all:
     input:
         expand("results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config_obj.name, event_type=config_obj.event_types),
-        expand("results/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name)
+        expand("results/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name),
+        expand("results/{config_name}/model/{config_name}-model.yaml", config_name=config_obj.name)
