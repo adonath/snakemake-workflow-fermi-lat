@@ -23,6 +23,14 @@ rule prepare_gp_dataset:
         edisp = EDispKernelMap.from_diagonal_response(
             energy_axis_true=energy_axis_true, energy_axis=energy_axis
         )
+        mask_safe = counts.geom.boundary_mask(width="0.2 deg")
 
-        dataset = MapDataset(counts=counts)
+        dataset = MapDataset(
+            counts=counts,
+            exposure=exposure,
+            psf=psf,
+            edisp=edisp,
+            mask_safe=mask_safe,
+        )
+        
         dataset.write(output[0])
