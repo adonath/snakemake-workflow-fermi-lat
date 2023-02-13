@@ -2,7 +2,6 @@ from snakemake.utils import min_version
 from astropy.coordinates import SkyCoord, Angle
 from astropy import units as u
 from astropy.time import Time
-from gammapy.utils.time import TIME_REF_FERMI
 from pydantic import BaseModel, validator
 from enum import Enum
 from typing import List
@@ -16,6 +15,7 @@ min_version("6.4.1")
 configfile: "config/config.yaml"
 
 # TODO: this is work in progress. Add more event clases, config arguments etc. from fermitools
+TIME_REF_FERMI = Time("2001-01-01T00:00:00")
 
 FERMI_IRF_EVCLASS = {
     128: "P8R3_SOURCE_V3",
