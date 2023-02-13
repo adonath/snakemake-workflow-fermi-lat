@@ -15,16 +15,6 @@ min_version("6.4.1")
 # setup config file
 configfile: "config/config.yaml"
 
-# load rules
-include: "rules/gather.smk"
-include: "rules/gtselect.smk"
-include: "rules/gtmktime.smk"
-include: "rules/gtbin.smk"
-include: "rules/gtexpcube2.smk"
-include: "rules/gtltcube.smk"
-include: "rules/gtpsf.smk"
-include: "rules/prepare-gp-dataset.smk"
-
 # TODO: this is work in progress. Add more event clases, config arguments etc. from fermitools
 
 FERMI_IRF_EVCLASS = {
@@ -40,10 +30,6 @@ class EventClassEnum(str, Enum):
     p8r3_ultraclean_v3 = "P8R3_ULTRACLEAN_V3"
     p8r3_clean_v3 = "P8R3_CLEAN_V3"
     p8r3_source_v3 = "P8R3_SOURCE_V3"
-
-
-
-    
 
 # P8R3_TRANSIENT010_V3
 # P8R3_TRANSIENT020_V3
@@ -274,8 +260,7 @@ class FermiToolsConfig(BaseConfig):
 
 class SnakeMakeFermiLATConfig(BaseConfig):
     name: str = "my-config"
-    scfile: str = "data/L230210105554348FF7BE69_SC00.fits"
-    ltcube: str = "data/ltcube_00.fits"
+    scfile: str
     event_types: List[EventTypeEnum] = ["FRONT", "BACK"]
     fermitools = FermiToolsConfig = FermiToolsConfig()
 
@@ -289,8 +274,19 @@ gtltcube = config_obj.fermitools.gtltcube
 gtexpcube2 = config_obj.fermitools.gtexpcube2
 gtpsf = config_obj.fermitools.gtpsf
 
+# load rules
+include: "rules/gather.smk"
+include: "rules/gtselect.smk"
+include: "rules/gtmktime.smk"
+include: "rules/gtbin.smk"
+include: "rules/gtexpcube2.smk"
+include: "rules/gtltcube.smk"
+include: "rules/gtpsf.smk"
+include: "rules/prepare-gp-dataset.smk"
+include: "rules/prepare-gp-datasets-yaml.smk"
 
 # all rule 
 rule all:
     input:
-        expand("results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config["name"], event_type=config_obj.event_types)
+        expand("results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config_obj.name, event_type=config_obj.event_types),
+        expand("results/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name)

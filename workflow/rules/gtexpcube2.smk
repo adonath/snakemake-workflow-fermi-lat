@@ -1,8 +1,8 @@
 rule gtexpcube2:
     input:
-        "results/{config_name}/{config_name}-{event_type}-ltcube.fits"
+        "results/{config_name}/ltcubes/{config_name}-{event_type}-ltcube.fits"
     output:
-        "results/{config_name}/maps/{config_name}-{event_type}-exposure.fits"
+        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-exposure.fits"
     log:
         "logs/{config_name}/{event_type}/gtexpcube2.log"
     run:

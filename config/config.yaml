@@ -1,6 +1,5 @@
 name: my-config
 scfile: data/L230210105554348FF7BE69_SC00.fits
-ltcube: data/ltcube_00.fits
 event_types: ["psf0", "psf1", "psf2", "psf3"]
 fermitools:
   gtselect:

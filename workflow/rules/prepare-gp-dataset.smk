@@ -1,8 +1,8 @@
 rule prepare_gp_dataset:
     input:
-        "results/{config_name}/maps/{config_name}-{event_type}-counts.fits",
-        "results/{config_name}/maps/{config_name}-{event_type}-exposure.fits",
-        "results/{config_name}/maps/{config_name}-{event_type}-psf.fits",
+        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-counts.fits",
+        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-exposure.fits",
+        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits",
     output:
         "results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits"
     log:
@@ -26,7 +26,7 @@ rule prepare_gp_dataset:
         mask_safe = counts.geom.boundary_mask(width="0.2 deg")
 
         dataset = MapDataset(
-            name="{config_name}-{event_type}",
+            name=f"{wildcards.config_name}-{wildcards.event_type}",
             counts=counts,
             exposure=exposure,
             psf=psf,
