@@ -1,4 +1,4 @@
-# Snakemake workflow for Fermi-LAT data reduction
+# Snakemake Workflow for Fermi-LAT Data Reduction
 
 This is an example snakemake workflow for data reduction of Fermi-LAT data. 
 The workflow will run the standrad `fermitools` for a given configuration
