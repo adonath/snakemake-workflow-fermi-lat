@@ -83,9 +83,9 @@ class BaseConfig(BaseModel):
 
 
 class GtSelectConfig(BaseConfig):
-    ra: float
-    dec: float
-    rad: float
+    ra: float = 0
+    dec: float = 0
+    rad: float = 3
     tmin: float = 239557417.0
     tmax: float = 697768627.0
     emin: float = 1000.0
@@ -102,6 +102,9 @@ class GtSelectConfig(BaseConfig):
     @validator("tmin", "tmax", pre=True)
     def validate_time(cls, value):
         """Validate time"""
+        if isinstance(value, float):
+            return value
+
         return (Time(value) - TIME_REF_FERMI).to_value("s")
 
     @validator("emin", "emax", pre=True)
@@ -175,6 +178,9 @@ class GtLtCubeConfig(BaseConfig):
     @validator("tmin", "tmax", pre=True)
     def validate_time(cls, value):
         """Validate time"""
+        if isinstance(value, float):
+            return value
+            
         return (Time(value) - TIME_REF_FERMI).to_value("s")
 
 
@@ -226,13 +232,29 @@ class GtPsfConfig(BaseConfig):
         """Validate energy"""
         return u.Quantity(value, "MeV").to_value("MeV")
 
+class FermiToolsConfig(BaseConfig):
+    gtselect: GtSelectConfig = GtSelectConfig()
+    gtmktime: GtMkTimeConfig = GtMkTimeConfig()
+    gtbin: GtBinConfig = GtBinConfig()
+    gtltcube: GtLtCubeConfig = GtLtCubeConfig()
+    gtexpcube2: GtExpCube2Config = GtExpCube2Config()
+    gtpsf: GtPsfConfig = GtPsfConfig()
 
-gtselect = GtSelectConfig(**config["gtselect"])
-gtmktime = GtMkTimeConfig(**config["gtmktime"])
-gtbin = GtBinConfig(**config["gtbin"])
-gtltcube = GtLtCubeConfig(**config["gtltcube"])
-gtexpcube2 = GtExpCube2Config(**config["gtexpcube2"])
-gtpsf = GtPsfConfig(**config["gtpsf"])
+
+class SnakeMakeFermiLATConfig(BaseConfig):
+    name: str = "my-config"
+    scfile: str = "data/L230210105554348FF7BE69_SC00.fits"
+    ltcube: str = "data/ltcube_00.fits"
+    fermitools = FermiToolsConfig = FermiToolsConfig()
+
+config_obj = SnakeMakeFermiLATConfig(**config)
+
+gtselect = config_obj.fermitools.gtselect
+gtmktime = config_obj.fermitools.gtmktime
+gtbin = config_obj.fermitools.gtbin
+gtltcube = config_obj.fermitools.gtltcube
+gtexpcube2 = config_obj.fermitools.gtexpcube2
+gtpsf = config_obj.fermitools.gtpsf
 
 
 # all rule 
