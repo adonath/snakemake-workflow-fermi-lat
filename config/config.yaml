@@ -1,14 +1,15 @@
 name: my-config
 scfile: data/L230210105554348FF7BE69_SC00.fits
+ltcube: data/ltcube_00.fits
 gtselect:
   ra: &ra "06h35m46.5079301472s"
   dec: &dec "-75d16m16.816418256s"
   rad: 3.5 deg
-  tmin: "2008-08-04 15:43:36"
-  tmax: "2023-02-10 21:46:14"
+  tmin: &tmin "2008-08-04 15:43:36"
+  tmax: &tmax "2023-02-10 21:46:14"
   emin: &emin 1 GeV
   emax: &emax 2 TeV
-  zmax: 105 deg
+  zmax: &zmax 105 deg
   evclass: 128
   evtype: 3
 gtmktime:
@@ -28,6 +29,12 @@ gtbin:
   axisrot: &axisrot 0
   emin: *emin
   emax: *emax
+gtltcube:
+  dcostheta: 0.025
+  binsz: 1.
+  tmin: *tmin
+  tmax: *tmax
+  zmax: *zmax
 gtexpcube2:
   coordsys: *coordsys
   binsz: *binsz

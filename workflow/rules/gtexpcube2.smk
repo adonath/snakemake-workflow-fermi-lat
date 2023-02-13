@@ -4,7 +4,7 @@ rule gtexpcube2:
     output:
         "results/{config_name}/{config_name}-exposure.fits"
     log:
-        "logs/gtexpcube2.log"
+        "logs/{config_name}/gtexpcube2.log"
     run:
         args = gtexpcube2.to_cmd_args()
         shell("gtexpcube2 infile={input} outfile={output} " + args)

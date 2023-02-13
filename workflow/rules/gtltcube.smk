@@ -4,7 +4,7 @@ rule gtltcube:
     output:
         "results/{config_name}/{config_name}-ltcube.fits"
     log:
-        "logs/gtltcube.log"
+        "logs/{config_name}/gtltcube.log"
     run:
         args = gtltcube.to_cmd_args()
         shell("gtltcube evfile={input} outfile={output} scfile={config[scfile]}" + args)
