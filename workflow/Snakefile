@@ -236,6 +236,6 @@ gtpsf = GtPsfConfig(**config["gtpsf"])
 # all rule 
 rule all:
     input:
-        expand("results/{config_name}/{config_name}-counts.fits", config_name=config["name"]),
-        expand("results/{config_name}/{config_name}-exposure.fits", config_name=config["name"]),
-        expand("results/{config_name}/{config_name}-psf.fits", config_name=config["name"]),
+        expand("results/{config_name}/maps/{config_name}-counts.fits", config_name=config["name"]),
+        expand("results/{config_name}/maps/{config_name}-exposure.fits", config_name=config["name"]),
+        expand("results/{config_name}/maps/{config_name}-psf.fits", config_name=config["name"]),
