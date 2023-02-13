@@ -21,6 +21,7 @@ include: "rules/gtmktime.smk"
 include: "rules/gtbin.smk"
 include: "rules/gtexpcube2.smk"
 include: "rules/gtltcube.smk"
+include: "rules/gtpsf.smk"
 
 FERMI_IRF_EVCLASS = {
     128: "P8R3_SOURCE_V3",
@@ -203,15 +204,38 @@ class GtExpCube2Config(BaseConfig):
         return Angle(value, "deg").deg
 
 
+class GtPsfConfig(BaseConfig):
+    thetamax: float = 10
+    ntheta: int = 300
+    ra: float = 0
+    dec: float = 0
+    emin: float = 1000.0
+    emax: float = 500000.0
+    nenergies: int = 17
+    irfs: IrfsEnum = "P8R3_SOURCE_V3"
+
+    @validator("ra", "dec", "thetamax", pre=True)
+    def validate_angle(cls, value):
+        """Validate angle"""
+        return Angle(value, "deg").deg
+
+    @validator("emin", "emax", pre=True)
+    def validate_energy(cls, value):
+        """Validate energy"""
+        return u.Quantity(value, "MeV").to_value("MeV")
+
+
 gtselect = GtSelectConfig(**config["gtselect"])
 gtmktime = GtMkTimeConfig(**config["gtmktime"])
 gtbin = GtBinConfig(**config["gtbin"])
 gtltcube = GtLtCubeConfig(**config["gtltcube"])
 gtexpcube2 = GtExpCube2Config(**config["gtexpcube2"])
+gtpsf = GtPsfConfig(**config["gtpsf"])
 
 
 # all rule 
 rule all:
     input:
         expand("results/{config_name}/{config_name}-counts.fits", config_name=config["name"]),
-        expand("results/{config_name}/{config_name}-exposure.fits", config_name=config["name"])
+        expand("results/{config_name}/{config_name}-exposure.fits", config_name=config["name"]),
+        expand("results/{config_name}/{config_name}-psf.fits", config_name=config["name"]),
