@@ -4,9 +4,9 @@ ltcube: data/ltcube_00.fits
 event_types: ["psf0", "psf1", "psf2", "psf3"]
 fermitools:
   gtselect:
-    ra: &ra "06h35m46.5079301472s"
-    dec: &dec "-75d16m16.816418256s"
-    rad: 3.5 deg
+    ra: &ra "08h52m00s"
+    dec: &dec "-46d19m58.80065918s"
+    rad: 3 deg
     tmin: &tmin "2008-08-04 15:43:36"
     tmax: &tmax "2023-02-10 21:46:14"
     emin: &emin 1 GeV
@@ -21,8 +21,8 @@ fermitools:
     nxpix: &nxpix 200
     nypix: &nypix 200
     binsz: &binsz 0.02
-    xref: &xref 0 
-    yref: &yref 0
+    xref: &xref 266.25888553
+    yref: &yref -1.21964555
     proj: &proj CAR
     coordsys: &coordsys GAL
     ebinalg: &ebinalg LOG

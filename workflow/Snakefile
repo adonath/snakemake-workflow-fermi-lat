@@ -65,7 +65,7 @@ class EventTypeEnum(str, Enum):
 
 
 EVENT_TYPE_TO_INT = {key.value: value  for key, value in zip(EventTypeEnum, EVENT_TYPES)}
-EVENT_CLASS_TO_INT = {key.value: value  for key, value in zip(EventClassEnum[::-1] EVENT_CLASSES)}
+EVENT_CLASS_TO_INT = {key.value: value  for key, value in zip(EventClassEnum, EVENT_CLASSES[::-1])}
 
 
 class BoolEnum(str, Enum):
@@ -220,8 +220,8 @@ class GtExpCube2Config(BaseConfig):
     irfs: EventClassEnum = "P8R3_SOURCE_V3"
     nxpix: int = 200
     nypix: int = 200
-    xref: float = 0 
-    yref: float = 0
+    xref: float = 266.25888553
+    yref: float = -1.21964555
     proj: ProjEnum = "CAR"
     binsz: float = 0.02
     ebinalg: EbinalgEnum = "LOG"
@@ -237,7 +237,7 @@ class GtExpCube2Config(BaseConfig):
         """Validate energy"""
         return u.Quantity(value, "MeV").to_value("MeV")
 
-    @validator("binsz", "axisrot", pre=True)
+    @validator("binsz", "axisrot", "xref", "yref", pre=True)
     def validate_angle(cls, value):
         """Validate angle"""
         return Angle(value, "deg").deg
