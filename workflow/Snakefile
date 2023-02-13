@@ -22,6 +22,8 @@ include: "rules/gtbin.smk"
 include: "rules/gtexpcube2.smk"
 include: "rules/gtltcube.smk"
 include: "rules/gtpsf.smk"
+include: "rules/prepare-gp-dataset.smk"
+
 
 FERMI_IRF_EVCLASS = {
     128: "P8R3_SOURCE_V3",
@@ -236,6 +238,4 @@ gtpsf = GtPsfConfig(**config["gtpsf"])
 # all rule 
 rule all:
     input:
-        expand("results/{config_name}/maps/{config_name}-counts.fits", config_name=config["name"]),
-        expand("results/{config_name}/maps/{config_name}-exposure.fits", config_name=config["name"]),
-        expand("results/{config_name}/maps/{config_name}-psf.fits", config_name=config["name"]),
+        expand("results/{config_name}/datasets/{config_name}-dataset.fits", config_name=config["name"])
