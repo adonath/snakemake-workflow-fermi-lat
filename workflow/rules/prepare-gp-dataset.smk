@@ -12,6 +12,7 @@ rule prepare_gp_dataset:
         from gammapy.maps import Map 
         from gammapy.datasets import MapDataset
         from gammapy.irf import PSFMap, EDispKernelMap
+        from astropy.table import Table
 
         counts = Map.read(input[0])
         exposure = Map.read(input[1])
@@ -25,6 +26,9 @@ rule prepare_gp_dataset:
         )
         mask_safe = counts.geom.boundary_mask(width="0.2 deg")
 
+        row = {"TELESCOP": "Fermi-LAT"}
+        meta_table = Table([row])
+
         dataset = MapDataset(
             name=f"{wildcards.config_name}-{wildcards.event_type}",
             counts=counts,
@@ -32,6 +36,7 @@ rule prepare_gp_dataset:
             psf=psf,
             edisp=edisp,
             mask_safe=mask_safe,
+            meta_table=meta_table,
         )
 
         dataset.write(output[0])
