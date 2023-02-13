@@ -6,6 +6,7 @@ rule gtmktime:
     log:
         "logs/{config_name}/{event_type}/gtmktime.log"
     run:
-        #args = gtmktime.to_cmd_args()
-        #shell("gtmktime scfile={config[scfile]} evfile={input} outfile={output} " + args)
-        shell("cp {input} {output}")
+        args = gtmktime.to_cmd_args()
+        shell("gtmktime scfile={config[scfile]} evfile={input} outfile={output} " + args)
+        # TODO: for testing just copy...
+        #shell("cp {input} {output}")

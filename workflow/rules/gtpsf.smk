@@ -7,4 +7,5 @@ rule gtpsf:
         "logs/{config_name}/{event_type}/gtpsf.log"
     run:
         args = gtpsf.to_cmd_args()
-        shell("gtpsf expcube={input} outfile={output} " + args)
+        evtype = EVENT_TYPE_TO_INT[wildcards.event_type]
+        shell("gtpsf expcube={input} outfile={output} evtype={evtype} " + args)

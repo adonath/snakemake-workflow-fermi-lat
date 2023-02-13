@@ -6,6 +6,7 @@ rule gtltcube:
     log:
         "logs/{config_name}/{event_type}/gtltcube.log"
     run:
-        #args = gtltcube.to_cmd_args()
-        #shell("gtltcube evfile={input} outfile={output} scfile={config[scfile]} " + args)
-        shell("cp {config[ltcube]} {output}")
+        args = gtltcube.to_cmd_args()
+        shell("gtltcube evfile={input} outfile={output} scfile={config[scfile]} " + args)
+        # TODO: for testing just copy...
+        #shell("cp {config[ltcube]} {output}")
