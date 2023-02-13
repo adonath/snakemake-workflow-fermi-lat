@@ -1,5 +1,5 @@
 # Conda environment for reducing fermi data
-name: snakemake-fermi-lat
+name: snakemake-workflow-fermi-lat
 
 channels:
   - conda-forge
@@ -12,3 +12,5 @@ dependencies:
   - snakemake>=6.4.1
   - pydantic>=1.9.0
   - astropy>=5.2
+  - gammapy>=v1.0
+  - fermitools>=2.2.0
