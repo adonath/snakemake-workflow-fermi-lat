@@ -4,11 +4,10 @@ rule prepare_gp_dataset:
         "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-exposure.fits",
         "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits",
     output:
-        "results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits"
+        "results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits",
     log:
         "logs/{config_name}/{event_type}/prepare-gp-dataset.log"
     run:
-
         from gammapy.maps import Map 
         from gammapy.datasets import MapDataset
         from gammapy.irf import PSFMap, EDispKernelMap

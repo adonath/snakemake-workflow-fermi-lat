@@ -284,6 +284,8 @@ gtltcube = config_obj.fermitools.gtltcube
 gtexpcube2 = config_obj.fermitools.gtexpcube2
 gtpsf = config_obj.fermitools.gtpsf
 
+report: "report/workflow.rst"
+
 # load rules
 include: "rules/gather.smk"
 include: "rules/gtselect.smk"
@@ -295,10 +297,12 @@ include: "rules/gtpsf.smk"
 include: "rules/prepare-gp-dataset.smk"
 include: "rules/prepare-gp-datasets-yaml.smk"
 include: "rules/prepare-gp-model.smk"
+include: "rules/summarize-gp-datasets.smk"
 
 # all rule 
 rule all:
     input:
         expand("results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config_obj.name, event_type=config_obj.event_types),
         expand("results/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name),
-        expand("results/{config_name}/model/{config_name}-model.yaml", config_name=config_obj.name)
+        expand("results/{config_name}/model/{config_name}-model.yaml", config_name=config_obj.name),
+        expand("results/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-counts-image.png", config_name=config_obj.name, event_type=config_obj.event_types),

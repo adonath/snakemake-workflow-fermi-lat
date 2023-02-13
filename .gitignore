@@ -6,3 +6,4 @@ data/**
 .snakemake/**
 __pycache__
 *.par
+report.html
