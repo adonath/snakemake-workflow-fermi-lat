@@ -4,7 +4,7 @@ rule prepare_model:
         "results/{config_name}/model/{config_name}-galactic-diffuse-model.fits"
         "results/{config_name}/model/{config_name}-isotropic-diffuse-model.txt"
     log:
-        "logs/{config_name}/prepare-gp-dataset.log"
+        "logs/{config_name}/{event_type}/prepare-gp-dataset.log"
     run:
 
         from gammapy.maps import Map

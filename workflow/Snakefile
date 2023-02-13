@@ -5,6 +5,7 @@ from astropy.time import Time
 from gammapy.utils.time import TIME_REF_FERMI
 from pydantic import BaseModel, validator
 from enum import Enum
+from typing import List
 
 
 
@@ -24,14 +25,29 @@ include: "rules/gtltcube.smk"
 include: "rules/gtpsf.smk"
 include: "rules/prepare-gp-dataset.smk"
 
+# TODO: this is work in progress. Add more event clases, config arguments etc. from fermitools
 
 FERMI_IRF_EVCLASS = {
     128: "P8R3_SOURCE_V3",
 }
 
 EVENT_TYPES = [2 ** idx for idx in range(10)]
-EVENT_TYPES += [3] # front and back type
 EVENT_CLASSES = [2 ** idx for idx in range(3, 12)]
+
+class EventTypeEnum(str, Enum):
+    front = "front"
+    back = "back"
+    psf_0 = "psf0"
+    psf_1 = "psf1"
+    psf_2 = "psf2"
+    psf_3 = "psf3"
+    edisp_0 = "edisp0"
+    edisp_1 = "edisp1"
+    edisp_2 = "edisp2"
+    edisp_3 = "edisp3"
+
+
+EVENT_TYPE_TO_INT = {key.value: value  for key, value in zip(EventTypeEnum, EVENT_TYPES)}
 
 
 class BoolEnum(str, Enum):
@@ -79,6 +95,7 @@ class BaseConfig(BaseModel):
     def to_cmd_args(self):
         """To cmd args"""
         data = self.dict()
+        data.pop("evtype", None)
         return " ".join([f"{key}={value}" for key, value in data.items()])
 
 
@@ -92,7 +109,7 @@ class GtSelectConfig(BaseConfig):
     emax: float = 500000.0
     zmax: float = 105.0
     evclass: int = 128
-    evtype: int = 3
+    evtype: int = 2
 
     @validator("ra", "dec", "zmax", "rad", pre=True)
     def validate_angle(cls, value):
@@ -180,7 +197,7 @@ class GtLtCubeConfig(BaseConfig):
         """Validate time"""
         if isinstance(value, float):
             return value
-            
+
         return (Time(value) - TIME_REF_FERMI).to_value("s")
 
 
@@ -245,7 +262,9 @@ class SnakeMakeFermiLATConfig(BaseConfig):
     name: str = "my-config"
     scfile: str = "data/L230210105554348FF7BE69_SC00.fits"
     ltcube: str = "data/ltcube_00.fits"
+    event_types: List[EventTypeEnum] = ["FRONT", "BACK"]
     fermitools = FermiToolsConfig = FermiToolsConfig()
+
 
 config_obj = SnakeMakeFermiLATConfig(**config)
 
@@ -260,4 +279,4 @@ gtpsf = config_obj.fermitools.gtpsf
 # all rule 
 rule all:
     input:
-        expand("results/{config_name}/datasets/{config_name}-dataset.fits", config_name=config["name"])
+        expand("results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config["name"], event_type=config_obj.event_types)

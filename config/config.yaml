@@ -1,6 +1,7 @@
 name: my-config
 scfile: data/L230210105554348FF7BE69_SC00.fits
 ltcube: data/ltcube_00.fits
+event_types: ["psf0", "psf1", "psf2", "psf3"]
 fermitools:
   gtselect:
     ra: &ra "06h35m46.5079301472s"
@@ -12,7 +13,6 @@ fermitools:
     emax: &emax 2 TeV
     zmax: &zmax 105 deg
     evclass: 128
-    evtype: 3
   gtmktime:
     filter: "'(DATA_QUAL>0)&&(LAT_CONFIG==1)'"
     roicut: "yes"

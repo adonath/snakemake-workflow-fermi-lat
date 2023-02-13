@@ -1,10 +1,10 @@
 rule gtmktime:
     input:
-        "results/{config_name}/{config_name}-events-selected.fits"
+        "results/{config_name}/events/{config_name}-{event_type}-events-selected.fits"
     output:
-        "results/{config_name}/{config_name}-events-selected-filtered.fits"
+        "results/{config_name}/events/{config_name}-{event_type}-events-selected-filtered.fits"
     log:
-        "logs/{config_name}/gtmktime.log"
+        "logs/{config_name}/{event_type}/gtmktime.log"
     run:
         #args = gtmktime.to_cmd_args()
         #shell("gtmktime scfile={config[scfile]} evfile={input} outfile={output} " + args)

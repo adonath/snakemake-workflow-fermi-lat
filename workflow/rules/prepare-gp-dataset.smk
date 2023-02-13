@@ -1,12 +1,12 @@
 rule prepare_gp_dataset:
     input:
-        "results/{config_name}/maps/{config_name}-counts.fits",
-        "results/{config_name}/maps/{config_name}-exposure.fits",
-        "results/{config_name}/maps/{config_name}-psf.fits",
+        "results/{config_name}/maps/{config_name}-{event_type}-counts.fits",
+        "results/{config_name}/maps/{config_name}-{event_type}-exposure.fits",
+        "results/{config_name}/maps/{config_name}-{event_type}-psf.fits",
     output:
-        "results/{config_name}/datasets/{config_name}-dataset.fits"
+        "results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits"
     log:
-        "logs/{config_name}/prepare-gp-dataset.log"
+        "logs/{config_name}/{event_type}/prepare-gp-dataset.log"
     run:
 
         from gammapy.maps import Map 
@@ -26,7 +26,7 @@ rule prepare_gp_dataset:
         mask_safe = counts.geom.boundary_mask(width="0.2 deg")
 
         dataset = MapDataset(
-            name="{config_name}",
+            name="{config_name}-{event_type}",
             counts=counts,
             exposure=exposure,
             psf=psf,

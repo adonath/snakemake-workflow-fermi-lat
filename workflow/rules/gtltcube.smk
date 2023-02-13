@@ -1,10 +1,10 @@
 rule gtltcube:
     input:
-        "results/{config_name}/{config_name}-events-selected-filtered.fits"
+        "results/{config_name}/events/{config_name}-{event_type}-events-selected-filtered.fits"
     output:
-        "results/{config_name}/{config_name}-ltcube.fits"
+        "results/{config_name}/{config_name}-{event_type}-ltcube.fits"
     log:
-        "logs/{config_name}/gtltcube.log"
+        "logs/{config_name}/{event_type}/gtltcube.log"
     run:
         #args = gtltcube.to_cmd_args()
         #shell("gtltcube evfile={input} outfile={output} scfile={config[scfile]} " + args)
