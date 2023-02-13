@@ -6,9 +6,9 @@ fermitools:
     ra: &ra "08h52m00s"
     dec: &dec "-46d19m58.80065918s"
     rad: 3 deg
-    tmin: &tmin "2022-08-04 15:43:36"
+    tmin: &tmin "2008-08-04 15:43:36"
     tmax: &tmax "2023-02-10 21:46:14"
-    emin: &emin 1 GeV
+    emin: &emin 10 GeV
     emax: &emax 2 TeV
     zmax: &zmax 105 deg
     evclass: 128
@@ -45,7 +45,7 @@ fermitools:
     proj: *proj
     ebinalg: *ebinalg
     cmap: none
-    emin: &emin_true 1 GeV
+    emin: &emin_true 5 GeV
     emax: &emax_true 2 TeV
     enumbins: &nebins 17
     axisrot: *axisrot

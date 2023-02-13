@@ -7,3 +7,4 @@ data/**
 __pycache__
 *.par
 report.html
+.ipynb_checkpoints
