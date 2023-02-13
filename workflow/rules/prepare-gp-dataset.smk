@@ -26,11 +26,12 @@ rule prepare_gp_dataset:
         mask_safe = counts.geom.boundary_mask(width="0.2 deg")
 
         dataset = MapDataset(
+            name="{config_name}",
             counts=counts,
             exposure=exposure,
             psf=psf,
             edisp=edisp,
             mask_safe=mask_safe,
         )
-        
+
         dataset.write(output[0])
