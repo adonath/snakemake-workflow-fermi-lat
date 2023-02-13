@@ -34,6 +34,21 @@ FERMI_IRF_EVCLASS = {
 EVENT_TYPES = [2 ** idx for idx in range(10)]
 EVENT_CLASSES = [2 ** idx for idx in range(3, 12)]
 
+class IrfsEnum(str, Enum):
+    p8r3_source_v3 = "P8R3_SOURCE_V3"
+    p8r3_sourceveto_v3 = "P8R3_SOURCEVETO_V3"
+    p8r3_clean_v3 = "P8R3_CLEAN_V3"
+    p8r3_ultraclean_v3 = "P8R3_ULTRACLEAN_V3"
+    p8r3_ultracleanveta_v3 = "P8R3_ULTRACLEANVETO_V3"
+
+    
+# TODO: add these classes...
+# P8R3_TRANSIENT010_V3
+# P8R3_TRANSIENT020_V3
+# P8R3_TRANSIENT010E_V3
+# P8R3_TRANSIENT020E_V3
+
+
 class EventTypeEnum(str, Enum):
     front = "front"
     back = "back"
@@ -77,10 +92,6 @@ class AlgorithmEnum(str, Enum):
 class BinCalcEnum(str, Enum):
     center = "CENTER"
     edges = "EDGE"
-
-
-class IrfsEnum(str, Enum):
-     p8r3_source_v3 = "P8R3_SOURCE_V3"
 
 
 class BaseConfig(BaseModel):
