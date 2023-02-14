@@ -47,7 +47,7 @@ fermitools:
     cmap: none
     emin: &emin_true 5 GeV
     emax: &emax_true 2 TeV
-    enumbins: &nebins 17
+    enumbins: 16
     axisrot: *axisrot
     bincalc: EDGE
   gtpsf:
@@ -57,6 +57,6 @@ fermitools:
     dec: *dec
     emin: *emin_true
     emax: *emax_true
-    nenergies: *nebins
+    nenergies: 17
 
 

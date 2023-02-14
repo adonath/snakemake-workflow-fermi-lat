@@ -8,21 +8,43 @@ rule prepare_gp_dataset:
     log:
         "logs/{config_name}/{event_type}/prepare-gp-dataset.log"
     run:
-        from gammapy.maps import Map 
+        from gammapy.maps import Map, RegionGeom
         from gammapy.datasets import MapDataset
         from gammapy.irf import PSFMap, EDispKernelMap
         from astropy.table import Table
+        from regions import PointSkyRegion
 
         counts = Map.read(input[0])
+        counts.data = counts.data.astype("float32")
+        
+        # for some reason the WCS defintions are not aligned...
         exposure = Map.read(input[1])
+        exposure.geom._wcs = counts.geom.wcs
+
         psf = PSFMap.read(input[2], format="gtpsf")
 
+        # Fix PSF meta data
+        center = SkyCoord(config_obj.fermitools.gtpsf.ra, config_obj.fermitools.gtpsf.dec, unit="deg")
+        point_region = PointSkyRegion(center)
+        geom = RegionGeom.from_regions(point_region)
+        geom_psf = geom.to_cube(psf.psf_map.geom.axes)
+
+
+        psf.psf_map._geom = geom_psf
+        psf.exposure_map._geom = geom_psf.squash("rad")
+        psf.exposure_map = psf.exposure_map.to_unit("m2s") 
+        
         energy_axis_true = exposure.geom.axes["energy_true"]
         energy_axis = counts.geom.axes["energy"]
 
         edisp = EDispKernelMap.from_diagonal_response(
-            energy_axis_true=energy_axis_true, energy_axis=energy_axis
+            energy_axis_true=energy_axis_true,
+            energy_axis=energy_axis,
+            geom=geom_psf
         )
+        
+        edisp.exposure_map = psf.exposure_map.rename_axes(["rad"], ["energy"])
+
         mask_safe = counts.geom.boundary_mask(width="0.2 deg")
 
         row = {"TELESCOP": "Fermi-LAT"}
