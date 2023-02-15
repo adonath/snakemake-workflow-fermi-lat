@@ -298,6 +298,7 @@ include: "rules/prepare-gp-dataset.smk"
 include: "rules/prepare-gp-datasets-yaml.smk"
 include: "rules/prepare-gp-model.smk"
 include: "rules/summarize-gp-datasets.smk"
+include: "rules/summarize-gp-spectra.smk"
 
 # all rule 
 rule all:
@@ -306,3 +307,4 @@ rule all:
         expand("results/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name),
         expand("results/{config_name}/model/{config_name}-model.yaml", config_name=config_obj.name),
         expand("results/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-counts-image.png", config_name=config_obj.name, event_type=config_obj.event_types),
+        expand("results/{config_name}/summary/images/{config_name}-counts-spectra.png", config_name=config_obj.name),

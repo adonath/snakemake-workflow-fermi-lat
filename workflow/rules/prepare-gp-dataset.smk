@@ -17,22 +17,22 @@ rule prepare_gp_dataset:
         counts = Map.read(input[0])
         counts.data = counts.data.astype("float32")
         
-        # for some reason the WCS defintions are not aligned...
+        # for some reason the WCS definitions are not aligned...
         exposure = Map.read(input[1])
         exposure.geom._wcs = counts.geom.wcs
 
         psf = PSFMap.read(input[2], format="gtpsf")
 
-        # Fix PSF meta data
+        # Add missing PSF meta data, see https://github.com/fermi-lat/Likelihood/issues/117
         center = SkyCoord(config_obj.fermitools.gtpsf.ra, config_obj.fermitools.gtpsf.dec, unit="deg")
         point_region = PointSkyRegion(center)
         geom = RegionGeom.from_regions(point_region)
+        
         geom_psf = geom.to_cube(psf.psf_map.geom.axes)
-
 
         psf.psf_map._geom = geom_psf
         psf.exposure_map._geom = geom_psf.squash("rad")
-        psf.exposure_map = psf.exposure_map.to_unit("m2s") 
+        psf.exposure_map = psf.exposure_map.to_unit("m2 s") 
         
         energy_axis_true = exposure.geom.axes["energy_true"]
         energy_axis = counts.geom.axes["energy"]
