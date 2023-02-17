@@ -4,7 +4,7 @@ from astropy import units as u
 from astropy.time import Time
 from pydantic import BaseModel, validator
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 
 
@@ -272,6 +272,7 @@ class SnakeMakeFermiLATConfig(BaseConfig):
     name: str = "my-config"
     scfile: str
     event_types: List[EventTypeEnum] = ["FRONT", "BACK"]
+    ltcube: Optional[str] = None
     fermitools = FermiToolsConfig = FermiToolsConfig()
 
 

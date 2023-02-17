@@ -2,11 +2,12 @@ rule gtltcube:
     input:
         "results/{config_name}/events/filtered/{config_name}-{event_type}-events-selected-filtered.fits"
     output:
-        "results/{config_name}/ltcubes/{config_name}-{event_type}-ltcube.fits"
+        "results/{config_name}/{config_name}-ltcube.fits"
     log:
-        "logs/{config_name}/{event_type}/gtltcube.log"
+        "logs/{config_name}/gtltcube.log"
     run:
-        args = gtltcube.to_cmd_args()
-        shell("gtltcube evfile={input} outfile={output} scfile={config[scfile]} " + args)
-        # TODO: for testing just copy...
-        #shell("cp {config[ltcube]} {output}")
+        if config_obj.ltcube is not None:
+            shell("cp {config[ltcube]} {input}")
+        else:
+            args = gtltcube.to_cmd_args()
+            shell("gtltcube evfile={input} outfile={output} scfile={config[scfile]} " + args)
