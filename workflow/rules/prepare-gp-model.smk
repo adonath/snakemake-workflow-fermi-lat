@@ -18,10 +18,12 @@ rule prepare_gp_model:
         from gammapy.catalog import CATALOG_REGISTRY
         from astropy import units as u
 
+        cutout_margin = 2 * u.deg
+
         path = make_path("$FERMI_DIR/refdata/fermi/galdiffuse")
         model = Map.read(path / "gll_iem_v07.fits")
 
-        cutout = model.cutout(gtselect.center_skydir, width=gtselect.width)
+        cutout = model.cutout(gtselect.center_skydir, width=gtselect.width + cutout_margin)
         
         axis = cutout.geom.axes["energy_true"]
         idx_min, idx_max = axis.coord_to_idx([gtexpcube2.emin, gtexpcube2.emax] * u.MeV)
