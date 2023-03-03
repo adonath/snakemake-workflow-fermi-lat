@@ -55,8 +55,11 @@ rule prepare_gp_model:
         models.append(diffuse_iem)
 
         catalog = CATALOG_REGISTRY.get_cls("3fhl")()
-
-        selection = cutout.geom.to_image().contains(catalog.positions)
+        
+        geom_image = cutout.geom.to_image()
+        width = (cutout_margin / geom_image.pixel_scales()).to_value("")
+        geom_image_pad = geom_image.pad(pad_width=width)
+        selection = geom_image.contains(catalog.positions)
         
         for source in catalog[selection]:
             models.append(source.sky_model())
