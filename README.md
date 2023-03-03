@@ -8,6 +8,20 @@ spread function (PSF) for various
 
 ## Getting Started
 
+### Use as Snakemake Module
+
+If you would like use this as Snakmake module you should add e.g. the following to your `Snakefile`:
+
+```python3
+module fermi_lat_data_workflow:
+    snakefile:
+        # here, plain paths, URLs and the special markers for code hosting providers (see below) are possible.
+        github("adonath/snakemake-workflow-fermi-lat", path="workflow/Snakefile", branch="main")
+    config: config["fermi-lat-data"]
+
+use rule * from fermi_lat_data_workflow as fermi_lat_data_*
+```
+
 ### Setup Environment 
 Start by cloning this repository to your local machine:
 ```bash
