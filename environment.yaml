@@ -3,6 +3,8 @@ name: snakemake-workflow-fermi-lat
 
 channels:
   - conda-forge
+  - bioconda
+  - fermi
 
 variables:
   PYTHONNOUSERSITE: "1"
