@@ -57,7 +57,7 @@ rule prepare_gp_model:
         catalog = CATALOG_REGISTRY.get_cls("3fhl")()
         
         geom_image = cutout.geom.to_image()
-        width = (cutout_margin / geom_image.pixel_scales()).to_value("")
+        width = (cutout_margin / geom_image.pixel_scales).to_value("")
         geom_image_pad = geom_image.pad(pad_width=width)
         selection = geom_image.contains(catalog.positions)
         
