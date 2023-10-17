@@ -45,7 +45,7 @@ jobs:
         mamba env update -f environment.yaml
       if: steps.cache.outputs.cache-hit != 'true'
     - name: Download test files
-      run:
+      run: |
         cd data
         wget https://github.com/adonath/snakemake-workflow-fermi-lat-test-data/raw/main/L231017092559388FF7BE86_PH00.fits
         wget https://github.com/adonath/snakemake-workflow-fermi-lat-test-data/raw/main/L231017092559388FF7BE86_SC00.fits
