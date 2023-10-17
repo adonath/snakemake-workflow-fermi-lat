@@ -58,7 +58,7 @@ rule prepare_gp_model:
         
         geom_image = cutout.geom.to_image()
         width = (cutout_margin / geom_image.pixel_scales).to_value("")
-        geom_image_pad = geom_image.pad(pad_width=width)
+        geom_image_pad = geom_image.pad(pad_width=width, axis_name=None)
         selection = geom_image.contains(catalog.positions)
         
         for source in catalog[selection]:
