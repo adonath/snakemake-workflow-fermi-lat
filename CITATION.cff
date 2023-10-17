@@ -1,0 +1,10 @@
+title: A Snakemake Workflow for Fermi-LAT data reduction for Gammapy
+repository-code: https://github.com/adonath/snakemake-workflow-fermi-lat
+version: v0.1
+date-released: 2023-10-17
+authors:
+  - given-names: Axel
+    family-names: Donath
+    affiliation: Center for Astrophysics | Harvard & Smithsonian
+    orcid: https://orcid.org/0000-0003-4568-7005
+cff-version: 1.2.0
