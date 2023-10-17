@@ -12,7 +12,7 @@ variables:
 dependencies:
   - python=3.9
   - snakemake>=6.4.1
-  - pydantic>=1.9.0
+  - pydantic<2.0
   - astropy>=5.2
   - gammapy>=v1.0
   - fermitools>=2.2.0
