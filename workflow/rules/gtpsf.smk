@@ -1,10 +1,10 @@
 rule gtpsf:
     input:
-        "config[path_results]/{config_name}/{config_name}-ltcube.fits"
+        "{path_results}/{config_name}/{config_name}-ltcube.fits"
     output:
-        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits"
+        "{path_results}/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits"
     log:
-        "logs/{config_name}/{event_type}/gtpsf.log"
+        "{path_results}/{config_name}/logs/{event_type}/gtpsf.log"
     run:
         args = gtpsf.to_cmd_args()
         evtype = EVENT_TYPE_TO_INT[wildcards.event_type]

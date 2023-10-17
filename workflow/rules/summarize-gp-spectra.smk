@@ -1,12 +1,12 @@
 rule summarize_gp_spectra:
     input:
-        "config[path_results]/{config_name}/datasets/{config_name}-datasets-all.yaml"
+        "{path_results}/{config_name}/datasets/{config_name}-datasets-all.yaml"
     output:
-        report("config[path_results]/{config_name}/summary/images/{config_name}-counts-spectra.png", caption="../report/caption-counts.rst", category="Counts"),
-        report("config[path_results]/{config_name}/summary/images/{config_name}-exposure-spectra.png", caption="../report/caption-counts.rst", category="Exposure"),
-        report("config[path_results]/{config_name}/summary/images/{config_name}-psf-spectra.png", caption="../report/caption-counts.rst", category="PSF"),
+        report("{path_results}/{config_name}/summary/images/{config_name}-counts-spectra.png", caption="../report/caption-counts.rst", category="Counts"),
+        report("{path_results}/{config_name}/summary/images/{config_name}-exposure-spectra.png", caption="../report/caption-counts.rst", category="Exposure"),
+        report("{path_results}/{config_name}/summary/images/{config_name}-psf-spectra.png", caption="../report/caption-counts.rst", category="PSF"),
     log:
-        "logs/{config_name}/summarize-gp-spectra.log"
+        "{path_results}/{config_name}/logs/summarize-gp-spectra.log"
     run:
         import matplotlib
         matplotlib.use('agg')

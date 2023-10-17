@@ -1,12 +1,12 @@
 rule prepare_gp_dataset:
     input:
-        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-counts.fits",
-        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-exposure.fits",
-        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits",
+        "{path_results}/{config_name}/maps/{event_type}/{config_name}-{event_type}-counts.fits",
+        "{path_results}/{config_name}/maps/{event_type}/{config_name}-{event_type}-exposure.fits",
+        "{path_results}/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits",
     output:
-        "config[path_results]/{config_name}/datasets/{config_name}-{event_type}-dataset.fits",
+        "{path_results}/{config_name}/datasets/{config_name}-{event_type}-dataset.fits",
     log:
-        "logs/{config_name}/{event_type}/prepare-gp-dataset.log"
+        "{path_results}/{config_name}/logs/{event_type}/prepare-gp-dataset.log"
     run:
         from gammapy.maps import Map, RegionGeom
         from gammapy.datasets import MapDataset

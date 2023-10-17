@@ -306,8 +306,8 @@ include: "rules/summarize-gp-spectra.smk"
 # all rule 
 rule all:
     input:
-        expand("config[path_results]/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config_obj.name, event_type=config_obj.event_types),
-        expand("config[path_results]/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name),
-        expand("config[path_results]/{config_name}/model/{config_name}-model.yaml", config_name=config_obj.name),
-        expand("config[path_results]/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-counts-image.png", config_name=config_obj.name, event_type=config_obj.event_types),
-        expand("config[path_results]/{config_name}/summary/images/{config_name}-counts-spectra.png", config_name=config_obj.name),
+        expand("{path_results}/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", path_results=config.path_results, config_name=config_obj.name, event_type=config_obj.event_types),
+        expand("{path_results}/{config_name}/datasets/{config_name}-datasets-all.yaml",  path_results=config.path_results, config_name=config_obj.name),
+        expand("{path_results}/{config_name}/model/{config_name}-model.yaml",  path_results=config.path_results, config_name=config_obj.name),
+        expand("{path_results}/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-counts-image.png",  path_results=config.path_results, config_name=config_obj.name, event_type=config_obj.event_types),
+        expand("{path_results}/{config_name}/summary/images/{config_name}-counts-spectra.png", path_results=config.path_results, config_name=config_obj.name),

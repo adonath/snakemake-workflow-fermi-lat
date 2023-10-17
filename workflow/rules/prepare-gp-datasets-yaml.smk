@@ -1,10 +1,10 @@
 rule prepare_gp_datasets_yaml:
     input:
-        expand("config[path_results]/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config["name"], event_type=config_obj.event_types)
+        expand("{path_results}/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", path_results=config["path_results"], config_name=config["name"], event_type=config_obj.event_types)
     output:
-        "config[path_results]/{config_name}/datasets/{config_name}-datasets-all.yaml"
+        "{path_results}/{config_name}/datasets/{config_name}-datasets-all.yaml"
     log:
-        "logs/{config_name}/prepare-gp-datasets-yaml.log"
+        "{path_results}/{config_name}/logs/prepare-gp-datasets-yaml.log"
     run:
 
         from gammapy.utils.scripts import write_yaml
