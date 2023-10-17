@@ -31,7 +31,7 @@ jobs:
       with:
         miniforge-variant: Mambaforge
         miniforge-version: latest
-        activate-environment: snakemake-workflow-chandra
+        activate-environment: snakemake-workflow-fermi-lat
         use-mamba: true
     - name: Cache conda environment
       uses: actions/cache@v2
