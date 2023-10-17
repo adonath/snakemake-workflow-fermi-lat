@@ -1,0 +1,55 @@
+# GitHub Actions workflow for testing and continuous integration.
+#
+# This file performs testing using tox and tox.ini to define and configure the test environments.
+
+name: CI tests
+
+on:
+  push:
+    branches:
+    - main  # GitHub now defaults to 'main' as the name of the primary branch. Change this as needed.
+  #  tags: # run CI if specific tags are pushed
+  pull_request:
+    # branches: # only build on PRs against 'main' if you need to further limit when CI is run.
+    #    - main
+
+jobs:
+  # Github Actions supports ubuntu, windows, and macos virtual environments:
+  # https://help.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners
+  ci_tests:
+    name: CI tests
+    runs-on: ubuntu-latest
+    env:
+      CACHE_NUMBER: 0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Setup mambaforge
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniforge-variant: Mambaforge
+        miniforge-version: latest
+        activate-environment: snakemake-workflow-chandra
+        use-mamba: true
+    - name: Cache conda environment
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.CONDA }}/envs
+        key:
+          conda-${{ runner.os }}--${{ runner.arch }}--${{hashFiles('environment.yaml') }}-${{ env.CACHE_NUMBER }}
+      id: cache
+    - name: Update environment
+      run:
+        mamba env update -f environment.yaml
+      if: steps.cache.outputs.cache-hit != 'true'
+    - name: Download test files
+      run:
+        cd data
+        wget https://github.com/adonath/snakemake-workflow-fermi-lat-test-data/raw/main/L231017092559388FF7BE86_PH00.fits
+        wget https://github.com/adonath/snakemake-workflow-fermi-lat-test-data/raw/main/L231017092559388FF7BE86_SC00.fits
+    - name: Run tests
+      shell: bash -l {0}
+      run: |
+        snakemake -c2
