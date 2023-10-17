@@ -21,7 +21,7 @@ rule prepare_gp_model:
         cutout_margin = 2 * u.deg
 
         path = make_path("$FERMI_DIR/refdata/fermi/galdiffuse")
-        model = Map.read(path / "gll_iem_v07.fits")
+        model = Map.read(path / config["gal_diffuse"])
 
         cutout = model.cutout(gtselect.center_skydir, width=gtselect.width + cutout_margin)
         
@@ -54,7 +54,7 @@ rule prepare_gp_model:
         )
         models.append(diffuse_iem)
 
-        catalog = CATALOG_REGISTRY.get_cls("3fhl")()
+        catalog = CATALOG_REGISTRY.get_cls(config["catalog"])()
         
         geom_image = cutout.geom.to_image()
         width = (cutout_margin / geom_image.pixel_scales).to_value("")

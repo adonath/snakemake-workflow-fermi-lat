@@ -273,6 +273,8 @@ class SnakeMakeFermiLATConfig(BaseConfig):
     scfile: str
     path_data: str = "data"
     path_results: str = "results"
+    gal_diffuse: str = "gll_iem_v07.fits"
+    catalog: str = "3fhl"
     event_types: List[EventTypeEnum] = ["FRONT", "BACK"]
     ltcube: Optional[str] = None
     fermitools = FermiToolsConfig = FermiToolsConfig()

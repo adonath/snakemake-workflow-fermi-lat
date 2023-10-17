@@ -3,6 +3,8 @@ scfile: data/L231017092559388FF7BE86_SC00.fits
 path_data: data/
 path_results: results/
 event_types: ["psf0", "psf1", "psf2", "psf3"]
+gal_diffuse: gll_iem_v07.fits
+catalog: 3fhl
 fermitools:
   gtselect:
     ra: &ra "08h52m00s"

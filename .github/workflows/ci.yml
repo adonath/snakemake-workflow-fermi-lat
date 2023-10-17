@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CACHE_NUMBER: 0
+      GAMMAPY_DATA: data
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -47,8 +48,10 @@ jobs:
     - name: Download test files
       run: |
         cd data
-        wget https://github.com/adonath/snakemake-workflow-fermi-lat-test-data/raw/main/L231017092559388FF7BE86_PH00.fits
-        wget https://github.com/adonath/snakemake-workflow-fermi-lat-test-data/raw/main/L231017092559388FF7BE86_SC00.fits
+        wget https://github.com/adonath/snakemake-workflow-fermi-lat-test-data/archive/refs/heads/main.zip
+        unzip main.zip
+        mv snakemake-workflow-fermi-lat-test-data-main/* .
+        rm -rf snakemake-workflow-fermi-lat-test-data-main main.zip
     - name: Run tests
       shell: bash -l {0}
       run: |
