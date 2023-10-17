@@ -271,6 +271,8 @@ class FermiToolsConfig(BaseConfig):
 class SnakeMakeFermiLATConfig(BaseConfig):
     name: str = "my-config"
     scfile: str
+    path_data: str = "data"
+    path_results: str = "results"
     event_types: List[EventTypeEnum] = ["FRONT", "BACK"]
     ltcube: Optional[str] = None
     fermitools = FermiToolsConfig = FermiToolsConfig()
@@ -304,8 +306,8 @@ include: "rules/summarize-gp-spectra.smk"
 # all rule 
 rule all:
     input:
-        expand("results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config_obj.name, event_type=config_obj.event_types),
-        expand("results/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name),
-        expand("results/{config_name}/model/{config_name}-model.yaml", config_name=config_obj.name),
-        expand("results/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-counts-image.png", config_name=config_obj.name, event_type=config_obj.event_types),
-        expand("results/{config_name}/summary/images/{config_name}-counts-spectra.png", config_name=config_obj.name),
+        expand("config[path_results]/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config_obj.name, event_type=config_obj.event_types),
+        expand("config[path_results]/{config_name}/datasets/{config_name}-datasets-all.yaml", config_name=config_obj.name),
+        expand("config[path_results]/{config_name}/model/{config_name}-model.yaml", config_name=config_obj.name),
+        expand("config[path_results]/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-counts-image.png", config_name=config_obj.name, event_type=config_obj.event_types),
+        expand("config[path_results]/{config_name}/summary/images/{config_name}-counts-spectra.png", config_name=config_obj.name),

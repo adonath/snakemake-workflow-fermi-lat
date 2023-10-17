@@ -1,8 +1,8 @@
 rule gtpsf:
     input:
-        "results/{config_name}/{config_name}-ltcube.fits"
+        "config[path_results]/{config_name}/{config_name}-ltcube.fits"
     output:
-        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits"
+        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits"
     log:
         "logs/{config_name}/{event_type}/gtpsf.log"
     run:

@@ -1,7 +1,7 @@
 name: my-config
 scfile: data/L231017092559388FF7BE86_SC00.fits
-data_path: data/
-result_path: results/
+path_data: data/
+path_results: results/
 event_types: ["psf0", "psf1", "psf2", "psf3"]
 fermitools:
   gtselect:

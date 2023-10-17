@@ -1,10 +1,10 @@
 rule prepare_gp_dataset:
     input:
-        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-counts.fits",
-        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-exposure.fits",
-        "results/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits",
+        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-counts.fits",
+        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-exposure.fits",
+        "config[path_results]/{config_name}/maps/{event_type}/{config_name}-{event_type}-psf.fits",
     output:
-        "results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits",
+        "config[path_results]/{config_name}/datasets/{config_name}-{event_type}-dataset.fits",
     log:
         "logs/{config_name}/{event_type}/prepare-gp-dataset.log"
     run:

@@ -1,8 +1,8 @@
 rule gtselect:
     input:
-        "results/events.txt"
+        "config[path_results]/events.txt"
     output:
-        "results/{config_name}/events/{config_name}-{event_type}-events-selected.fits"
+        "config[path_results]/{config_name}/events/{config_name}-{event_type}-events-selected.fits"
     log:
         "logs/{config_name}/{event_type}/gtselect.log"
     run: 

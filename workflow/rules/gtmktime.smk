@@ -1,8 +1,8 @@
 rule gtmktime:
     input:
-        "results/{config_name}/events/{config_name}-{event_type}-events-selected.fits"
+        "config[path_results]/{config_name}/events/{config_name}-{event_type}-events-selected.fits"
     output:
-        "results/{config_name}/events/filtered/{config_name}-{event_type}-events-selected-filtered.fits"
+        "config[path_results]/{config_name}/events/filtered/{config_name}-{event_type}-events-selected-filtered.fits"
     log:
         "logs/{config_name}/{event_type}/gtmktime.log"
     run:

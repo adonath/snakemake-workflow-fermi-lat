@@ -1,8 +1,8 @@
 rule prepare_gp_datasets_yaml:
     input:
-        expand("results/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config["name"], event_type=config_obj.event_types)
+        expand("config[path_results]/{config_name}/datasets/{config_name}-{event_type}-dataset.fits", config_name=config["name"], event_type=config_obj.event_types)
     output:
-        "results/{config_name}/datasets/{config_name}-datasets-all.yaml"
+        "config[path_results]/{config_name}/datasets/{config_name}-datasets-all.yaml"
     log:
         "logs/{config_name}/prepare-gp-datasets-yaml.log"
     run:

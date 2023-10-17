@@ -1,5 +1,5 @@
 rule gather_event_files:
     output:
-        "results/events.txt"
+        "{config[path_results]}/events.txt"
     shell: 
-        "ls data/*_PH* > {output}"
+        "ls {config[path_data]}/*_PH* > {output}"

@@ -1,7 +1,7 @@
 rule prepare_gp_model:
     output:
-        "results/{config_name}/model/{config_name}-model.yaml",
-        "results/{config_name}/model/{config_name}-galactic-diffuse-model.fits",
+        "config[path_results]/{config_name}/model/{config_name}-model.yaml",
+        "config[path_results]/{config_name}/model/{config_name}-galactic-diffuse-model.fits",
     log:
         "logs/{config_name}/prepare-gp-model.log"
     run:
