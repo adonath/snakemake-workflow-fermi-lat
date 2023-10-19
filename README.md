@@ -1,10 +1,10 @@
 # Snakemake Workflow for Fermi-LAT Data Reduction
 
 This is an example snakemake workflow for data reduction of Fermi-LAT data. 
-The workflow will run the standrad `fermitools` for a given configuration
-and produce as an output FITS file in a format the Gammapy can read.
+The workflow will run the standard `fermitools` for a given configuration
+and produce FITS files in a format that Gammapy can read.
 Thereby it will handle the reduction of counts, exposure and point
-spread function (PSF) for various  
+spread function (PSF) for multiple PSF classes.
 
 ## Getting Started
 
@@ -23,7 +23,7 @@ use rule * from fermi_lat_data_workflow as fermi_lat_data_*
 ```
 
 ### Use as Repository
-Alternatively you could als just clone this repository to your local machine:
+Alternatively you could also just clone this repository to your local machine:
 ```bash
 git clone https://github.com/adonath/snakemake-workflow-fermi-lat.git
 ```
