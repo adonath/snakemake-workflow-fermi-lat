@@ -42,7 +42,7 @@ jobs:
       id: cache
     - name: Update environment
       run:
-        mamba env update -f environment.yaml
+        conda env update -f environment.yaml
       if: steps.cache.outputs.cache-hit != 'true'
     - name: Download test files
       run: |
