@@ -7,6 +7,8 @@ rule summarize_gp_dataset:
     
         report("{path_results}/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-exposure-image.png", caption="../report/caption-exposure.rst", category="Exposure", subcategory="{event_type}"),
         report("{path_results}/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-exposure-grid.png", caption="../report/caption-exposure.rst", category="Exposure", subcategory="{event_type}"),
+
+        report("{path_results}/{config_name}/summary/images/{event_type}/{config_name}-{event_type}-edisp-matrix.png", caption="../report/caption-edisp.rst", category="EDisp", subcategory="{event_type}"),
     log:
         "{path_results}/{config_name}/logs/{event_type}/prepare-gp-dataset.log"
     run:
@@ -36,4 +38,9 @@ rule summarize_gp_dataset:
 
         dataset.exposure.plot_grid()
         plt.savefig(output[3], dpi=dpi)
+
+        fig = plt.figure(figsize=(8, 5))
+        kernel = dataset.edisp.get_edisp_kernel()
+        kernel.plot_matrix()
+        plt.savefig(output[4], dpi=dpi)
 

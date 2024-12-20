@@ -2,9 +2,9 @@ from snakemake.utils import min_version
 from astropy.coordinates import SkyCoord, Angle
 from astropy import units as u
 from astropy.time import Time
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, FilePath
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Literal
 
 
 
@@ -86,6 +86,9 @@ class BinCalcEnum(str, Enum):
 class BaseConfig(BaseModel):
     """Gt base config"""
     mode: str = "h"
+    chatter: int = 2
+    clobber: Literal["yes", "no"] = "yes"
+    debug: Literal["no", "yes"] = "no"
 
     class Config:
         validate_all = True
@@ -133,7 +136,7 @@ class GtSelectConfig(BaseConfig):
     def validate_event_class(cls, value):
         """Validate event class"""
         if not value in EVENT_CLASSES:
-            raise ValueError(f"Not a valid event class {value}")
+            raise ValueError(f"Not a valid event class {value}, choose from {EVENT_CLASSES}")
 
         return value
 
@@ -141,7 +144,7 @@ class GtSelectConfig(BaseConfig):
     def validate_event_type(cls, value):
         """Validate event type"""
         if not value in EVENT_TYPES:
-            raise ValueError(f"Not a valid event type {value}")
+            raise ValueError(f"Not a valid event type {value}, choose from {EVENT_TYPES}")
 
         return value
 
@@ -259,6 +262,20 @@ class GtPsfConfig(BaseConfig):
         """Validate energy"""
         return u.Quantity(value, "MeV").to_value("MeV")
 
+class GtDrmConfig(BaseConfig):
+    irfs: EventClassEnum = "P8R3_SOURCE_V3"
+    evtype: int = 2
+    edisp_bins: int = 1
+
+    @validator("evtype")
+    def validate_event_type(cls, value):
+        """Validate event type"""
+        if not value in EVENT_TYPES:
+            raise ValueError(f"Not a valid event type {value}, choose from {EVENT_TYPES}")
+
+        return value
+
+
 class FermiToolsConfig(BaseConfig):
     gtselect: GtSelectConfig = GtSelectConfig()
     gtmktime: GtMkTimeConfig = GtMkTimeConfig()
@@ -266,6 +283,7 @@ class FermiToolsConfig(BaseConfig):
     gtltcube: GtLtCubeConfig = GtLtCubeConfig()
     gtexpcube2: GtExpCube2Config = GtExpCube2Config()
     gtpsf: GtPsfConfig = GtPsfConfig()
+    gtdrm: GtDrmConfig = GtDrmConfig()
 
 
 class SnakeMakeFermiLATConfig(BaseConfig):
@@ -288,6 +306,7 @@ gtbin = config_obj.fermitools.gtbin
 gtltcube = config_obj.fermitools.gtltcube
 gtexpcube2 = config_obj.fermitools.gtexpcube2
 gtpsf = config_obj.fermitools.gtpsf
+gtdrm = config_obj.fermitools.gtdrm
 
 report: "report/workflow.rst"
 
@@ -299,6 +318,7 @@ include: "rules/gtbin.smk"
 include: "rules/gtexpcube2.smk"
 include: "rules/gtltcube.smk"
 include: "rules/gtpsf.smk"
+include: "rules/gtdrm.smk"
 include: "rules/prepare-gp-dataset.smk"
 include: "rules/prepare-gp-datasets-yaml.smk"
 include: "rules/prepare-gp-model.smk"
