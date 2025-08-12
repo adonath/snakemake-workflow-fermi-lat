@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/600248979.svg)](https://doi.org/10.5281/zenodo.16813358)
+
 # Snakemake Workflow for Fermi-LAT Data Reduction
 
 This is an example snakemake workflow for data reduction of Fermi-LAT data. 
